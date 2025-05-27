@@ -1,0 +1,13 @@
+Ўаблон Zabbix дл€ мониторинга HP Smart Array
+
+ѕарсит вывод ssacli, предоставл€€ информацию:
+- список контроллеров и их состо€ние: батаре€, кэш, сам контроллер
+- список физических дисков и состо€ние
+- список логических дисков и состо€ние
+
+”становка:
+- установить Python (протестирована работа с 3.13)
+- путь к python.exe прописать в ./zabbix_agentd.conf.d/hpssa.conf
+- скопировать ./zabbix_agentd.conf.d/hpssa.conf в zabbix_install_path/zabbix_agentd.conf.d/
+- скопировать ./scripts/hp_ssa.py в zabbix_install_path/scripts
+- импортировать в Zabbix ./template/hp_storage_monitoring_template.json
