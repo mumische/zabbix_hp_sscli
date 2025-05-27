@@ -1,0 +1,302 @@
+{
+    "zabbix_export": {
+        "version": "6.4",
+        "template_groups": [
+            {
+                "uuid": "7df96b18c230490a9a0a9e2307226338",
+                "name": "Templates"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "3e8a035de80344a0a77dedb6a832ae0d",
+                "template": "HP Storage Monitoring Template",
+                "name": "HP Storage Monitoring Template",
+                "groups": [
+                    {
+                        "name": "Templates"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "75dedc06eac341a695d7a18a07a20150",
+                        "name": "Logical Drives Json Data",
+                        "key": "hpssa[discover,lds]",
+                        "delay": "30m",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Storage"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f16f303f7a7348e9abc43ba930e6a31b",
+                        "name": "Physical Drives Json Data",
+                        "key": "hpssa[discover,pds]",
+                        "delay": "30m",
+                        "trends": "0",
+                        "value_type": "TEXT",
+                        "tags": [
+                            {
+                                "tag": "Application",
+                                "value": "Storage"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "0330fe4b339e44239861d8a35b2e8708",
+                        "name": "Physical Drives Discovery",
+                        "type": "DEPENDENT",
+                        "key": "hpssa[dependent]",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "10a9e15e5fd2489b8c086d7ea37d7214",
+                                "name": "Drive {#PD_NAME} status",
+                                "type": "DEPENDENT",
+                                "key": "hpssa[{#PD_NAME}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.pd_name==\"{#PD_NAME}\")].pd_status"
+                                        ]
+                                    },
+                                    {
+                                        "type": "TRIM",
+                                        "parameters": [
+                                            "[]\\\""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "hpssa[discover,pds]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "1ebc99871246449db5812a9f855431b8",
+                                        "expression": "find(/HP Storage Monitoring Template/hpssa[{#PD_NAME}],#1,\"like\",\"OK\")=0",
+                                        "name": "Drive {#PD_NAME} status not OK",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "hpssa[discover,pds]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#PD_NAME}",
+                                "path": "$.pd_name"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f8773c0578fc4722b886d2f3d1b3c02f",
+                        "name": "Logical Drives Discovery",
+                        "type": "DEPENDENT",
+                        "key": "hpssa[dependent_logical]",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "bf84e6b5d66e4018b66d7b47dbe733a6",
+                                "name": "Drive {#LD_NAME} status",
+                                "type": "DEPENDENT",
+                                "key": "hpssa[{#LD_NAME}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.ld_name==\"{#LD_NAME}\")].ld_status"
+                                        ]
+                                    },
+                                    {
+                                        "type": "TRIM",
+                                        "parameters": [
+                                            "[]\\\""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "hpssa[discover,lds]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "4d22d2602ab1471b99ccc7bb1e8ef7e9",
+                                        "expression": "find(/HP Storage Monitoring Template/hpssa[{#LD_NAME}],#1,\"like\",\"OK\")=0",
+                                        "name": "Drive {#LD_NAME} status not OK",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "hpssa[discover,lds]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#LD_NAME}",
+                                "path": "$.ld_name"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "7173bf5401df4e828bb228ecd79e112e",
+                        "name": "HP Controllers Discovery",
+                        "key": "hpssa[discover,controllers]",
+                        "delay": "5m",
+                        "item_prototypes": [
+                            {
+                                "uuid": "d7d61b3baa00416f835298d1b668e75f",
+                                "name": "Controller {#CT_NAME} Battery Status",
+                                "type": "DEPENDENT",
+                                "key": "hpssa.status.controller[{#CT_SERIAL},batterystatus]",
+                                "delay": "0",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.batterycapacitor"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "hpssa.status.controller[{#CT_SERIAL}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "24121357093b46cd85ee9982c299d54d",
+                                        "expression": "find(/HP Storage Monitoring Template/hpssa.status.controller[{#CT_SERIAL},batterystatus],#1,\"like\",\"ok\")=0",
+                                        "name": "Controller {#CT_NAME} Battery Status",
+                                        "event_name": "{#CT_NAME} Battery Status not ok",
+                                        "priority": "AVERAGE",
+                                        "manual_close": "YES"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "a5cdee3ce5734f478659c07cb3cf8915",
+                                "name": "Controller {#CT_NAME} Cache Status",
+                                "type": "DEPENDENT",
+                                "key": "hpssa.status.controller[{#CT_SERIAL},cachestatus]",
+                                "delay": "0",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.cache"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "hpssa.status.controller[{#CT_SERIAL}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "2b48d13c4568472fa399fb2581b4f8c2",
+                                        "expression": "find(/HP Storage Monitoring Template/hpssa.status.controller[{#CT_SERIAL},cachestatus],#1,\"like\",\"ok\")=0",
+                                        "name": "Controller {#CT_NAME} Cache Status",
+                                        "event_name": "{#CT_NAME} Cache Status not ok",
+                                        "priority": "AVERAGE",
+                                        "manual_close": "YES"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "d6eb62d7475c40dc98cdedd3741d09db",
+                                "name": "Controller {#CT_NAME} Controller Status",
+                                "type": "DEPENDENT",
+                                "key": "hpssa.status.controller[{#CT_SERIAL},controllerstatus]",
+                                "delay": "0",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.controller"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "hpssa.status.controller[{#CT_SERIAL}]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "9c906a9d45ed4228925e6f5d59d0ec7d",
+                                        "expression": "find(/HP Storage Monitoring Template/hpssa.status.controller[{#CT_SERIAL},controllerstatus],#1,\"like\",\"ok\")=0",
+                                        "name": "Controller {#CT_NAME} Controller Status",
+                                        "event_name": "{#CT_NAME} Controller Status not ok",
+                                        "priority": "AVERAGE",
+                                        "manual_close": "YES"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "2c2e1c3f2d04423d9af9d5533c551a17",
+                                "name": "Controller {#CT_NAME} {#CT_SERIAL} JSON Data",
+                                "key": "hpssa.status.controller[{#CT_SERIAL}]",
+                                "delay": "30m",
+                                "history": "30d",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "tags": [
+                                    {
+                                        "tag": "Application",
+                                        "value": "Storage"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
