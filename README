@@ -1,13 +1,13 @@
-Шаблон Zabbix для мониторинга HP Smart Array
+РЁР°Р±Р»РѕРЅ Zabbix РґР»СЏ РјРѕРЅРёС‚РѕСЂРёРЅРіР° HP Smart Array
 
-Парсит вывод ssacli, предоставляя информацию:
-- список контроллеров и их состояние: батарея, кэш, сам контроллер
-- список физических дисков и состояние
-- список логических дисков и состояние
+РџР°СЂСЃРёС‚ РІС‹РІРѕРґ ssacli (Smart Storage Administrator), РїСЂРµРґРѕСЃС‚Р°РІР»СЏСЏ РёРЅС„РѕСЂРјР°С†РёСЋ:
+- СЃРїРёСЃРѕРє РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ Рё РёС… СЃРѕСЃС‚РѕСЏРЅРёРµ: Р±Р°С‚Р°СЂРµСЏ, РєСЌС€, СЃР°Рј РєРѕРЅС‚СЂРѕР»Р»РµСЂ
+- СЃРїРёСЃРѕРє С„РёР·РёС‡РµСЃРєРёС… РґРёСЃРєРѕРІ Рё СЃРѕСЃС‚РѕСЏРЅРёРµ
+- СЃРїРёСЃРѕРє Р»РѕРіРёС‡РµСЃРєРёС… РґРёСЃРєРѕРІ Рё СЃРѕСЃС‚РѕСЏРЅРёРµ
 
-Установка:
-- установить Python (протестирована работа с 3.13)
-- путь к python.exe прописать в ./zabbix_agentd.conf.d/hpssa.conf
-- скопировать ./zabbix_agentd.conf.d/hpssa.conf в zabbix_install_path/zabbix_agentd.conf.d/
-- скопировать ./scripts/hp_ssa.py в zabbix_install_path/scripts
-- импортировать в Zabbix ./template/hp_storage_monitoring_template.json
+РЈСЃС‚Р°РЅРѕРІРєР°:
+- СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Python (РїСЂРѕС‚РµСЃС‚РёСЂРѕРІР°РЅР° СЂР°Р±РѕС‚Р° СЃ 3.13)
+- РїСѓС‚СЊ Рє python.exe РїСЂРѕРїРёСЃР°С‚СЊ РІ ./zabbix_agentd.conf.d/hpssa.conf
+- СЃРєРѕРїРёСЂРѕРІР°С‚СЊ ./zabbix_agentd.conf.d/hpssa.conf РІ zabbix_install_path/zabbix_agentd.conf.d/
+- СЃРєРѕРїРёСЂРѕРІР°С‚СЊ ./scripts/hp_ssa.py РІ zabbix_install_path/scripts
+- РёРјРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РІ Zabbix ./template/hp_storage_monitoring_template.json
